@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+
   def create
     @article = Article.new(article_params)
     if @article.save
@@ -22,20 +23,14 @@ class ArticlesController < ApplicationController
     end
   end
 
-    def destroy
-      @article = Article.find_by(slug: params[:slug])
-      @article.destroy
-      head :no_content
-    end
+  def destroy
+    @article = Article.find_by(slug: params[:slug])
+    @article.destroy
+    head :no_content
+  end
 
-
-
-
-
-
-private
-def article_params
-  params.require(:article).permit(:title, :description, :body)
-end
-
+    private
+  def article_params
+    params.require(:article).permit(:title, :description, :body)
+  end
 end
