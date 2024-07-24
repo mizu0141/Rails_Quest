@@ -1,5 +1,10 @@
 class ArticlesController < ApplicationController
 
+  def index
+    @articles = Article.all
+    render json: { articles: @articles.map { |article| ArticleSerializer.new(article) } }
+  end
+
   def create
     @article = Article.new(article_params)
     if @article.save
@@ -11,13 +16,13 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find_by(slug: params[:slug])
-    render json: { article: ArticleSerializer.new(@article) }, status: :ok
+    render json: { article: ArticleSerializer.new(@article) }
   end
 
   def update
     @article = Article.find_by(slug: params[:slug])
     if @article.update(article_params)
-      render json: { article: ArticleSerializer.new(@article) }, status: :ok
+      render json: { article: ArticleSerializer.new(@article) }
     else
       render json: { errors: @article.errors.full_messages }, status: :unprocessable_entity
     end
